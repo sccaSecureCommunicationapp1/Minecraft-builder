@@ -1,11 +1,10 @@
 {
-  "name": "king-of-ai-bedrock-engine",
+  "name": "minecraft-bedrock-ai-engine",
   "version": "1.0.0",
-  "description": "Autonomous Minecraft Bedrock Redstone & UI Engine",
+  "description": "King of AI Bedrock Redstone & Chat-Box UI Engine",
   "main": "main.js",
   "scripts": {
-    "start": "node main.js",
-    "build-apk": "echo 'Building Android APK Package...'"
+    "build": "node main.js"
   },
   "dependencies": {}
 }
