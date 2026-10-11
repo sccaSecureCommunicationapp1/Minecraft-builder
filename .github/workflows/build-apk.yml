@@ -1,0 +1,35 @@
+name: Build Minecraft AI Engine APK
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+
+    - name: Run Main Generation Script
+      run: |
+        npm install
+        node main.js
+
+    - name: Simulate APK Packaging
+      run: |
+        mkdir -p build/apk
+        echo "King of AI Bedrock Engine Package" > build/apk/app-release.apk
+        ls -R build/apk
+
+    - name: Upload APK Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: KingOfAI-Bedrock-Engine-APK
+        path: build/apk/app-release.apk
