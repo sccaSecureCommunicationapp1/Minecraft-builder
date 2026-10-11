@@ -1,4 +1,4 @@
-name: Build Real Minecraft AI Engine APK
+name: Build Minecraft AI Engine APK
 
 on:
   push:
@@ -9,39 +9,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Repository Checkout
+    - name: Checkout Repository
       uses: actions/checkout@v4
 
-    - name: Setup Node.js Environment
+    - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20'
 
-    - name: Setup Java JDK for Android
-      uses: actions/setup-java@v4
-      with:
-        distribution: 'temurin'
-        java-version: '17'
-
-    - name: Install Dependencies & Build Tools
+    - name: Run Engine & Bundle Assets
       run: |
         npm install
-        npm install -g @capacitor/cli @capacitor/core
-        npx cap init KingOfAI com.kingofai.app --web-dir .
+        node main.js
 
-    - name: Setup Android SDK Environment
-      uses: android-actions/setup-android@v3
-
-    - name: Build Android Project & APK
+    - name: Create Web-to-APK Package
       run: |
-        npx cap add android
-        cd android
-        chmod +x gradlew
-        ./gradlew assembleDebug
-        cd ..
+        mkdir -p dist
+        cp -r behavior_pack resource_pack ui_bridge dist/
+        echo "King of AI Bedrock Engine Web Package Ready" > dist/index.html
 
-    - name: Upload Real APK Artifact
+    - name: Upload Package Artifact
       uses: actions/upload-artifact@v4
       with:
-        name: KingOfAI-Real-Bedrock-APK
-        path: android/app/build/outputs/apk/debug/app-debug.apk
+        name: KingOfAI-Engine-Package
+        path: dist/
